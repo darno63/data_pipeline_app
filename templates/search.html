@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel='stylesheet' href="{{ url_for('static',filename='css/externalstylesheet.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    
+</head>
+
+<style>
+
+body{margin:0;}
+
+body {
+  background-image: url('https://bgwall.net/wp-content/uploads/2014/09/art-pink-vintage-music-wallpaper.jpg');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+  opacity: 0.95;
+  background-position: center;
+}
+
+.header-overlay{
+  height:100%;
+  width:100%;
+  margin-left:auto;
+  margin-right:auto;
+  position: fixed;
+  top:0;
+  bottom:0;
+  background: plum;
+  z-index: 1;
+  opacity: 0.25;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+form.example input[type=text] {
+  padding: 10px;
+  font-size: 17px;
+  border: 1px solid palevioletred;
+  float: left;
+  width: 80%;
+  background:rgb(250, 233, 233);
+}
+
+form.example button {
+  float: left;
+  width: 20%;
+  padding: 10px;
+  background: rgb(90, 45, 60);
+  color:white;
+  font-size: 17px;
+  border: 1px solid palevioletred;
+  border-left: none;
+  cursor: pointer;
+}
+
+form.example button:hover {
+  background: rgb(90, 45, 60);
+}
+
+form.example::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+.box{
+  position: absolute;
+  z-index: 2;
+  top: 50%;
+  left: 50%;
+  margin-top: -50px;
+  margin-left: -100px;
+}
+</style>
+
+<body>
+<div class="header-overlay"></div>
+<!--Responsive Topnav-->	    
+<div class="topnav" id="myTopnav">
+<a href="{{ url_for('index')  }}" class="dropbtn"><i class = "fa fa-fw fa-home"></i> Home</a>
+<a href="{{ url_for('search')  }}" class="active"><i class="fa fa-fw fa-search"></i> Search</a>
+</div>
+
+<!--Search Input-->	
+  <div class="box">
+  <form class="example" method="POST" name="form" style="margin:auto;max-width:800px">
+    {% if error %}
+    <p style="color:rgb(90, 45, 60)"><b>Unfortunately, that song is not in our database :ccc</b></p>
+    {% endif %}
+    {% if empty %}
+    <p style="color:rgb(90, 45, 60)"><b>Please enter a valid search query!</b></p>
+    {% endif %}
+    <input type="text" placeholder="Search.." name="query">
+    <button type="submit"><i class="fa fa-search"></i></button>
+  </form>
+  </div>
+</body>

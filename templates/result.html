@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Home Page</title>
+    <link rel='stylesheet' href="{{ url_for('static',filename='css/externalstylesheet.css') }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  
+<style>
+/*Fixed nav bar*/
+.sticky {
+  position: fixed;
+  top: 0;
+  width: 100%;
+}
+
+.result{
+  padding: 16px
+}
+
+.sticky + .result{
+  padding-top: 60px;
+}
+
+
+body{margin:0;}
+body {
+  background-image: url('https://data.whicdn.com/images/218213703/original.png');
+  background-repeat: no-repeat;
+  background-attachment: fixed;  
+  background-size: cover;
+  background-position: center;
+}
+
+.title, .content1, .content2, .content3, .chart, .content4{
+  max-width: 800px;
+  margin:auto;
+  position: relative;
+  z-index: 1;
+}
+
+.center {
+  display: block;
+  margin-left: auto;
+  margin-right: auto;
+  width: 50%;
+}
+
+#song_info td{
+  border: 1px solid #ddd;
+  padding:8px;
+}
+
+#song_info tr:nth-child(odd){background-color: rgba(249, 228, 225, 1);}
+#song_info tr:nth-child(even){background-color: rgba(253, 247, 246, 0.67);}
+#song_info tr:hover {background-color: #f3c6c6;}
+
+#song_features td{
+  border: 1px solid #ddd;
+  padding:8px;
+}
+
+#song_features tr:nth-child(odd){background-color: rgba(249, 228, 225, 1);}
+#song_features tr:nth-child(even){background-color: rgba(253, 247, 246, 0.67);}
+#song_features tr:hover {background-color: #f3c6c6;}
+
+
+/* Photo Grid */
+* {
+  box-sizing: border-box;
+}
+
+.column {
+  float: left;
+  width: 33.33%;
+  padding: 5px;
+}
+
+/* Clearfix (clear floats) */
+.row::after {
+  content: "";
+  clear: both;
+  display: table;
+}
+
+</style>
+
+<script>
+// When the user scrolls the page, execute myFunction
+window.onscroll = function() {myFunction()};
+
+// Get the navbar
+var navbar = document.getElementById("navbar");
+
+// Get the offset position of the navbar
+var sticky = navbar.offsetTop;
+
+// Add the sticky class to the navbar when you reach its scroll position. Remove "sticky" when you leave the scroll position
+function myFunction() {
+  if (window.pageYOffset >= sticky) {
+    navbar.classList.add("sticky")
+  } else {
+    navbar.classList.remove("sticky");
+  }
+}
+  </script>
+</head>
+
+<body> 
+  <!--Responsive Topnav-->	    
+  <div class="topnav" id="navbar">
+    <a href="{{ url_for('index')  }}" class="dropbtn"><i class = "fa fa-fw fa-home"></i> Home</a>
+    <a href="{{ url_for('search')  }}" class="active"><i class="fa fa-fw fa-search"></i> Search</a>
+  </div>
+
+  <br>
+
+ <div class="result">
+
+  <div class="title">
+  <h1 style="color: rgb(90, 45, 60)">Search Result</h1>
+  </div>
+
+  <div class="content1">
+    <h3 style="color: rgb(160, 56, 56);"><b>Basic Track Info >></b></h3>
+    <table id="song_info" style="color: rgb(90, 45, 60)">
+      
+      <tr>
+        <td><b>Name</b></td>
+        <td>{{name}}</td>
+      </tr>
+      <tr>
+        <td><b>Artist</b></td>
+        <td>{{artist}}</td>
+      </tr>
+      <tr>
+        <td><b>Album</b></td>
+        <td>{{albumn}}</td>
+      </tr>
+      <tr>
+        <td><b>Released Date</b></td>
+        <td>{{release_date}}</td>
+      </tr>
+    </table>
+  </div>
+
+
+  <div class="content2">
+    <h3 style="color: rgb(160, 56, 56)"> <b>Song Features >></b></h3>
+    <table id="song_features" style="color: rgb(90, 45, 60)">
+      
+      <tr>
+        <td><b>Key</b></td>
+        <td>{{ key }}</td>
+      </tr>
+      <tr>
+        <td><b>Modality Scale</b></td>
+        <td>{{ mode }}</td>
+      </tr>
+      <tr>
+        <td><b>Tempo (BPM)</b></td>
+        <td>{{ tempo }}</td>
+      </tr>
+      <tr>
+        <td><b>Meter</b></td>
+        <td>{{ meter }}</td>
+      </tr>
+    </table>
+  </div>
+  <br>
+  
+  <div class="chart" id="chart">
+    <embed type="image/svg+xml" src= {{ chart|safe }} style ="width:100%" class="center"/>
+  </div>
+
+  <div class="content3">
+    <h3 style="color: rgb(160, 56, 56);"><b>Similar Song Recommendations >></b></h3>
+    <ul>
+      {% for song in recommendations %}
+        <li style = "color: rgb(90, 45, 60)">{{ song }}</li>
+      {% endfor %}
+    </ul>
+  </div>
+  
+  <div class="content4">
+    <h3 style="color: rgb(160, 56, 56);"><b>Song Emotion >></b></h3>
+  
+    <div class="w3-container w3-teal">
+      <h3 style="color: rgb(90, 45, 60)">{{ emotion }}</h3>
+    </div>
+
+  
+    <div class="row">
+      {% for pic in pics %}
+      <div class="column">
+        <img src="{{ pic }}" alt="Snow" style="width:100%">
+      </div>
+      {% endfor %}
+    <div>
+    
+    <p style="color: rgb(90, 45, 60)">*Photos provided by <a href="https://www.pexels.com/">Pexels</a></p>
+  </div>
+</div>
+
+</body>
+</html>
